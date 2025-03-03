@@ -35,15 +35,7 @@ jobs:
       - name: Test
         run: npm test
       
-      - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
-          flags: unittests
-          fail_ci_if_error: true
-          verbose: true
-
+   
   publish:
     needs: build
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
