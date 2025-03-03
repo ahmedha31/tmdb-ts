@@ -34,32 +34,16 @@ describe('TMDBClient', () => {
         api_key: 'test-api-key'
       });
       expect(MockedAuthManager).toHaveBeenCalledWith(
-        expect.any(Object),
-        'test-api-key',
-        undefined
+        'test-api-key'
       );
     });
-    
-    it('should create a client with access token auth', () => {
-      const _client = new TMDBClient({
-        auth: {
-          accessToken: 'test-access-token'
-        }
-      });
-      
-      expect(MockedFetchClient).toHaveBeenCalled();
-      // Access token still uses Authorization header
-      expect(MockedFetchClient.prototype.setDefaultHeaders).toHaveBeenCalledWith({
-        Authorization: 'Bearer test-access-token'
-      });
-    });
-    
+  
     it('should throw if neither apiKey nor accessToken is provided', () => {
       expect(() => {
         new TMDBClient({
           auth: {}
         });
-      }).toThrow('Either apiKey or accessToken must be provided');
+      }).toThrow('API key must be provided');
     });
     
     it('should initialize with cache if enabled', () => {
@@ -128,57 +112,8 @@ describe('TMDBClient', () => {
       );
     });
   });
-  
-  describe('authentication methods', () => {
-    let client: TMDBClient;
-    
-    beforeEach(() => {
-      client = new TMDBClient({
-        auth: {
-          apiKey: 'test-api-key'
-        }
-      });
-      
-      // Reset mock implementation
-      (MockedAuthManager.prototype.authenticate as jest.Mock).mockReset();
-      (MockedAuthManager.prototype.setSessionId as jest.Mock).mockReset();
-      (MockedAuthManager.prototype.getSessionId as jest.Mock).mockReset();
-      (MockedAuthManager.prototype.hasSession as jest.Mock).mockReset();
-    });
-    
-    it('should call authenticate on the auth manager', async () => {
-      (MockedAuthManager.prototype.authenticate as jest.Mock).mockResolvedValue('test-session-id');
-      
-      const result = await client.authenticate('username', 'password');
-      
-      expect(MockedAuthManager.prototype.authenticate).toHaveBeenCalledWith('username', 'password');
-      expect(result).toBe('test-session-id');
-    });
-    
-    it('should call setSessionId on the auth manager', () => {
-      client.setSessionId('test-session-id');
-      
-      expect(MockedAuthManager.prototype.setSessionId).toHaveBeenCalledWith('test-session-id');
-    });
-    
-    it('should call getSessionId on the auth manager', () => {
-      (MockedAuthManager.prototype.getSessionId as jest.Mock).mockReturnValue('test-session-id');
-      
-      const result = client.getSessionId();
-      
-      expect(MockedAuthManager.prototype.getSessionId).toHaveBeenCalled();
-      expect(result).toBe('test-session-id');
-    });
-    
-    it('should call hasSession on the auth manager', () => {
-      (MockedAuthManager.prototype.hasSession as jest.Mock).mockReturnValue(true);
-      
-      const result = client.hasSession();
-      
-      expect(MockedAuthManager.prototype.hasSession).toHaveBeenCalled();
-      expect(result).toBe(true);
-    });
-  });
+
+   
 
   describe('image URL methods', () => {
     let client: TMDBClient;

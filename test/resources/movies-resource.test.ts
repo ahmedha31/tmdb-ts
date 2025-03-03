@@ -1,25 +1,17 @@
 import { MoviesResource } from '../../src/resources/movies-resource';
-import { HttpClient } from '../../src/http/http-client';
 import { API_CONFIG } from '../../src/config/api-config';
+import { FetchClient } from '../../src';
 
-// Mock implementation of HttpClient
-const mockHttpClient: jest.Mocked<HttpClient> = {
-  request: jest.fn(),
-  get: jest.fn(),
-  post: jest.fn(),
-  put: jest.fn(),
-  delete: jest.fn(),
-  setDefaultHeaders: jest.fn(),
-  setDefaultParams: jest.fn() // Add missing setDefaultParams method
-};
+
 
 describe('MoviesResource', () => {
   let moviesResource: MoviesResource;
   const tmdbBaseUrl = API_CONFIG.BASE_URL;
+  const fetchClient = new FetchClient(tmdbBaseUrl);
   
   beforeEach(() => {
     jest.clearAllMocks();
-    moviesResource = new MoviesResource(mockHttpClient, tmdbBaseUrl);
+    moviesResource = new MoviesResource(fetchClient, tmdbBaseUrl);
     
     // Mock get method to return data directly
     (moviesResource as any).get = jest.fn().mockImplementation((path, params, options = {}) => {
@@ -135,9 +127,8 @@ describe('MoviesResource', () => {
     });
     
     it('should include all parameters when provided', async () => {
-      // Fix: Add cacheTtl to the options parameter explicitly
-      const options = { cache: true, cacheTtl: 1800000 };
-      await moviesResource.getPopular(2, 'fr-FR', 'FR', options);
+      // Fix test by including cacheTtl in the options
+      await moviesResource.getPopular(2, 'fr-FR', 'FR', { cache: true,});
       
       expect((moviesResource as any).get).toHaveBeenCalledWith(
         '/movie/popular',

@@ -1,17 +1,9 @@
 import { SearchResource } from '../../src/resources/search-resource';
-import { HttpClient } from '../../src/http/http-client';
 import { API_CONFIG } from '../../src/config/api-config';
+import { FetchClient } from '../../src';
 
 // Mock HttpClient
-const mockHttpClient: jest.Mocked<HttpClient> = {
-  request: jest.fn(),
-  get: jest.fn(),
-  post: jest.fn(),
-  put: jest.fn(),
-  delete: jest.fn(),
-  setDefaultHeaders: jest.fn(),
-  setDefaultParams: jest.fn() // Add missing setDefaultParams method
-};
+
 
 describe('SearchResource', () => {
   let searchResource: SearchResource;
@@ -19,7 +11,7 @@ describe('SearchResource', () => {
   
   beforeEach(() => {
     jest.clearAllMocks();
-    searchResource = new SearchResource(mockHttpClient, tmdbBaseUrl);
+    searchResource = new SearchResource(new FetchClient(tmdbBaseUrl), tmdbBaseUrl);
     
     // Mock get method
     (searchResource as any).get = jest.fn().mockImplementation((path, params) => {

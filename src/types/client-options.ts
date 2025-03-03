@@ -4,10 +4,6 @@
 export interface AuthOptions {
   /** TMDB API Key */
   apiKey?: string;
-  /** TMDB API Read Access Token (Bearer token) */
-  accessToken?: string;
-  /** TMDB Session ID (for writing operations) */
-  sessionId?: string;
 }
 
 /**

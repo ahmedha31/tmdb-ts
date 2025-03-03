@@ -48,8 +48,8 @@ export class TMDBClient {
    */
   constructor(options: TMDBClientOptions) {
     // Validate options
-    if (!options.auth.apiKey && !options.auth.accessToken) {
-      throw new Error('Either apiKey or accessToken must be provided');
+    if (!options.auth.apiKey) {
+      throw new Error('API key must be provided');
     }
     
     // Set up HTTP client
@@ -67,12 +67,7 @@ export class TMDBClient {
       this.httpClient.setDefaultParams({
         api_key: options.auth.apiKey
       });
-    } else if (options.auth.accessToken) {
-      // Use Bearer token authentication
-      this.httpClient.setDefaultHeaders({
-        Authorization: `Bearer ${options.auth.accessToken}`
-      });
-    }
+    } 
     
     // Set up cache if enabled
     this.cache = options.cache?.enabled !== false
@@ -87,9 +82,7 @@ export class TMDBClient {
     
     // Create authentication manager
     this.authManager = new AuthManager(
-      this.httpClient,
       options.auth.apiKey || '',
-      options.auth.sessionId
     );
 
     // Initialize resources
@@ -111,39 +104,5 @@ export class TMDBClient {
    */
   getImageUrl(options: ImageUrlOptions, type: ImageSizeType = 'poster'): string | null {
     return UrlHelper.getImageUrl(options, type);
-  }
-
-  /**
-   * Authenticate with username and password
-   * @param username - TMDB username
-   * @param password - TMDB password
-   * @returns Promise resolving to session ID
-   */
-  async authenticate(username: string, password: string): Promise<string> {
-    return this.authManager.authenticate(username, password);
-  }
-  
-  /**
-   * Set a session ID
-   * @param sessionId - Session ID
-   */
-  setSessionId(sessionId: string): void {
-    this.authManager.setSessionId(sessionId);
-  }
-
-  /**
-   * Get the session ID
-   * @returns Session ID or null if not authenticated
-   */
-  getSessionId(): string | null {
-    return this.authManager.getSessionId();
-  }
-
-  /**
-   * Check if a session is active
-   * @returns True if a session ID is present, false otherwise
-   */
-  hasSession(): boolean {
-    return this.authManager.hasSession();
   }
 }
