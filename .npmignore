@@ -1,0 +1,7 @@
+src/
+tests/
+.github/
+.gitignore
+.eslintrc
+jest.config.js
+tsconfig.json

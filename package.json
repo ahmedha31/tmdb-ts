@@ -2,33 +2,24 @@
   "name": "tmdb-ts",
   "version": "1.0.1",
   "description": "A TypeScript SDK for The Movie Database (TMDB) API",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsc -p tsconfig.esm.json",
-    "build:types": "tsc -p tsconfig.types.json",
+    "build": "tsc",
     "test": "jest",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run test && npm run lint"
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [
-    "tmdb",
-    "api",
-    "sdk",
-    "movies",
-    "tv",
-    "typescript"
-  ],
+  "keywords": [],
   "author": "Ahmed Hassan",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedha31/tmdb-ts.git"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.4",
     "@types/node": "^18.15.11",
