@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { TMDBClient } from '../src';
 
 // Initialize the client

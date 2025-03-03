@@ -1,4 +1,5 @@
-import { TMDBClient, MediaType, TimeWindow } from '../src';
+/* eslint-disable no-console */
+import { TMDBClient, TimeWindow } from '../src';
 
 // Initialize the client with caching enabled
 const tmdb = new TMDBClient({

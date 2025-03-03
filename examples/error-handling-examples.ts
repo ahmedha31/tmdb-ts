@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { TMDBClient, HttpError, RateLimitError } from '../src';
 
 // Initialize the client
@@ -28,7 +29,6 @@ async function errorHandlingExamples() {
   // Example 2: Handling invalid parameters
   try {
     console.log('\nAttempting search with empty query...');
-    // @ts-ignore - Deliberately passing invalid params for example
     const searchResults = await tmdb.search.movies({ query: '' });
     console.log(`Found ${searchResults.total_results} results`);
   } catch (error) {
@@ -75,7 +75,7 @@ async function errorHandlingExamples() {
   // Example 4: Using try/catch with async/await
   try {
     console.log('\nDemonstrating proper error handling with async/await...');
-    const results = await Promise.all([
+    const _results = await Promise.all([
       tmdb.movies.getPopular(),
       // Intentionally cause an error in the second request
       tmdb.movies.getDetails({ movieId: -1 }) // Invalid ID
