@@ -1,6 +1,6 @@
 {
-  "name": "tmdb-typescript-sdk",
-  "version": "1.0.0",
+  "name": "tmdb-ts",
+  "version": "1.0.1",
   "description": "A TypeScript SDK for The Movie Database (TMDB) API",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
